@@ -36,8 +36,13 @@ class SavePath(object):
                 json.dump(temp, file)
                 file.write("\n")
                 rate.sleep()
-                
 
+    def loadJSON(self):
+        with open("coordinates.json", "w") as file:
+            pathData = json.load(file)
+
+        # for coordinate in pathData:
+        #     print(coordinate)
 
     def write_to_file(self):
         rospy.loginfo("Start to write all poses from RtabMap.")
