@@ -36,6 +36,7 @@ class SavePath(object):
                 json.dump(temp, file)
                 file.write("\n")
                 rate.sleep()
+                
 
 
     def write_to_file(self):
