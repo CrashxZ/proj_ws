@@ -7,38 +7,36 @@ import importlib
 from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped, Point, PointStamped
 import time
-
-
 class SavePath(object):
-    p1 = np.array([0, 0, 0])
-    p2 = np.array([0, 0, 0])
 
     def __init__(self):
         self._point = PointStamped()
         self._currentPoint = PointStamped()
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
         self.write_to_file()
+        self.saveJSON()
 
     def sub_callback(self, msg):
         self._point = [msg.point.x, msg.point.y, msg.point.z]
+        self.coordinate = self._point
         # rospy.loginfo(self._point)
 
-    def saveJSON(self, coordinate):
+    def saveJSON(self):
+        coordinate = self.coordinate
         pointn = {
             "x": coordinate[0],
             "y": coordinate[1],
             "z": coordinate[2]
         }
-        temp = json.dumps(pointn)
         rate = rospy.Rate(20)
         with open("coordinates.json", "w") as file:
             while not rospy.is_shutdown():
-                json.dump(temp, file)
+                json.dump(pointn, file)
                 file.write("\n")
                 rate.sleep()
 
     def loadJSON(self):
-        with open("coordinates.json", "w") as file:
+        with open("coordinates.json", "r") as file:
             pathData = json.load(file)
 
         # for coordinate in pathData:
