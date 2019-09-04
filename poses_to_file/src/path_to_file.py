@@ -50,7 +50,7 @@ class SavePath(object):
 	with open('poses_from_path.txt', 'w') as file:
             
             while not rospy.is_shutdown():    
-		file.write(str(self._currentposition) + " Delta Q =" + str(self._currentposition) + ' \n')
+		    file.write(str(self._currentposition) + " Delta Q =" + str(self._currentposition) + ' \n')
                 rate.sleep()
                     
         rospy.loginfo("Written all Poses to poses.txt file")
