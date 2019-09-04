@@ -3,7 +3,7 @@ import json
 
 with open("localPoseStamped_2.txt", "r") as file:
     pathData = file.readlines()
-    
+
 for point in pathData:
     point = eval(point)
     point = {
