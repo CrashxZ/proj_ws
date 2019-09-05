@@ -12,8 +12,9 @@ class SavePath(object):
     def __init__(self):
         self._point = PointStamped()
         self._currentPoint = PointStamped()
+        self.coordinate = PointStamped()
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
-        self.write_to_file()
+        #self.write_to_file()
         self.saveJSON()
 
     def sub_callback(self, msg):
