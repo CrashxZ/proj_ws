@@ -29,6 +29,7 @@ class SavePath(object):
             "y": coordinate[1],
             "z": coordinate[2]
         }
+        rospy.loginfo(pointn)
         rate = rospy.Rate(20)
         with open("coordinates.json", "w") as file:
             while not rospy.is_shutdown():
