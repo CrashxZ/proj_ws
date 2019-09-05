@@ -28,9 +28,10 @@ class SavePath(object):
         rospy.loginfo("Start to write all points.")
         with open("coordinates.json", "w") as file:
             while not rospy.is_shutdown():
-                json.dump(self._coordinate, file)
-                file.write("\n")
-                rospy.loginfo(self._coordinate)
+                if(self._coordinate != "")
+                    json.dump(self._coordinate, file)
+                    file.write("\n")
+                    rospy.loginfo(self._coordinate)
                 rate.sleep()
 
     def loadJSON(self):
