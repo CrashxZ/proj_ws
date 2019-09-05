@@ -12,29 +12,27 @@ class SavePath(object):
     def __init__(self):
         self._point = PointStamped()
         self._currentPoint = PointStamped()
-        self.coordinate = PointStamped()
+        self.coordinate = ""
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
         #self.write_to_file()
         self.saveJSON()
 
     def sub_callback(self, msg):
-        self._point = [msg.point.x, msg.point.y, msg.point.z]
-        self.coordinate = self._point
-        # rospy.loginfo(self._point)
+        self.coordinate = {
+            "x": msg.point.x,
+            "y": msg.point.y,
+            "z": msg.point.z
+            }
+        
+        rospy.loginfo(self.coordinate)
 
     def saveJSON(self):
-        coordinate = self.coordinate
-        pointn = {
-            "x": coordinate[0],
-            "y": coordinate[1],
-            "z": coordinate[2]
-        }
-        rospy.loginfo(pointn)
         rate = rospy.Rate(20)
         with open("coordinates.json", "w") as file:
             while not rospy.is_shutdown():
-                json.dump(pointn, file)
+                json.dump(self.coordinate, file)
                 file.write("\n")
+                rospy.loginfo(self.coordinate)
                 rate.sleep()
 
     def loadJSON(self):
