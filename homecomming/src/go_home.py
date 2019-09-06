@@ -20,6 +20,7 @@ class GoHome(object):
         self.delta = ""
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
         self.loadJSON()
+        self.deltaQ()
 
     def sub_callback(self, msg):
         self._coordinate = {
@@ -51,6 +52,7 @@ class GoHome(object):
             if self.delta["x"] < self.error & self.delta["y"] < self.error & self.delta["z"] < self.error:
                 counter += 1
                 rospy.loginfo("error")
+        rate.sleep(20)
 
 
 
