@@ -26,7 +26,7 @@ class SavePath(object):
     def sub_callback(self, msg):
 	
 	p1 = np.array([msg.poses[-1].pose.position.x, msg.poses[-1].pose.position.y, msg.poses[-1].pose.position.z])
-    p2 = np.array([msg.poses[-2].pose.position.x, msg.poses[-2].pose.position.y, msg.poses[-2].pose.position.z])
+    	p2 = np.array([msg.poses[-2].pose.position.x, msg.poses[-2].pose.position.y, msg.poses[-2].pose.position.z])
 	deltaQ= p1-p2
 
 	self._temp = msg.poses[-1]
