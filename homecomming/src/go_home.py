@@ -30,7 +30,7 @@ class GoHome(object):
 
     def loadJSON(self):
         with open("coordinates.json", "r") as file:
-            self.pathData = json.load(file)
+            self.pathData = json.loads(file)
             rospy.loginfo("part1")
             rospy.loginfo(self.pathData)
             for point in self.pathData:
