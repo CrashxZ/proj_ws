@@ -14,8 +14,10 @@ class GoHome(object):
     def __init__(self):
         self._currentPoint = PointStamped()
         self._coordinate = ""
+        self.pathData = ""
+        self.pathArray = []
+        self.delta =""
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
-        self.saveJSON()
 
     def sub_callback(self, msg):
         self._coordinate = {
@@ -25,10 +27,23 @@ class GoHome(object):
         }
 
     def loadJSON(self):
-        with open("coordinates.json", "r") as file:
-            _pathData = json.load(file)
+        with open("/src/local_path/data/coordinates.json", "r") as file:
+           self.pathData = json.load(file)
+            for point in self.pathData:
+                rospy.loginfo(point)
+                self.pathArray.append(point)
+
+
 
     def deltaQ(self):
+        rate = rospy.Rate(20)
+        while not rospy.is_shutdown():
+            self.delta= {
+                "x" : (self._coordinate["x"] - self.pathArray["x"])
+
+            }
+
+
         
 
 if __name__ == "__main__":
