@@ -35,8 +35,8 @@ class GoHome(object):
             rospy.loginfo("part1")
             for point in self.pathData:
                 point = eval(point)
-                #rospy.loginfo(point)
-                self.pathArray.append(point)
+                rospy.loginfo(type(point))
+                self.pathArray.append(json.dump(point))
         #rospy.loginfo(self.pathArray)
         rospy.loginfo("Finished reading file")
 
