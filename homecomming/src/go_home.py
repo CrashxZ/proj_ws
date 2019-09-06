@@ -26,10 +26,10 @@ class GoHome(object):
 
     def loadJSON(self):
         with open("coordinates.json", "r") as file:
-            pathData = json.load(file)
+            _pathData = json.load(file)
 
     def deltaQ(self):
-
+        
 
 if __name__ == "__main__":
     rospy.init_node('spot_recorder', log_level=rospy.INFO)
