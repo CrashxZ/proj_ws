@@ -34,19 +34,24 @@ class GoHome(object):
             rospy.loginfo("part1")
             for point in self.pathData:
                 point = eval(point)
-                rospy.loginfo(point)
+                #rospy.loginfo(point)
                 self.pathArray.append(point)
-        rospy.loginfo(self.pathArray)
+        #rospy.loginfo(self.pathArray)
+        rospy.loginfo("Finished reading file")
 
     def deltaQ(self):
         rate = rospy.Rate(20)
+        counter = 0
         while not rospy.is_shutdown():
             self.delta = {
-                "x": (self._coordinate["x"] - self.pathArray["x"]),
-                "y": (self._coordinate["y"] - self.pathArray["y"]),
-                "z": (self._coordinate["z"] - self.pathArray["z"])
+                "x": (self._coordinate["x"] - self.pathArray[counter]["x"]),
+                "y": (self._coordinate["y"] - self.pathArray[counter]["y"]),
+                "z": (self._coordinate["z"] - self.pathArray[counter]["z"])
             }
-            # if self.delta["x"] < self.error && self.delta["y"] < self.error && self.delta["z"] < self.error:
+            if self.delta["x"] < self.error & self.delta["y"] < self.error & self.delta["z"] < self.error:
+                counter += 1
+                rospy.loginfo("error")
+
 
 
 if __name__ == "__main__":
