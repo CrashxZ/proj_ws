@@ -49,7 +49,8 @@ class GoHome(object):
                 "y": (self._coordinate["y"] - self.pathArray[counter]["y"]),
                 "z": (self._coordinate["z"] - self.pathArray[counter]["z"])
             }
-            if self.delta["x"] < self.error & self.delta["y"] < self.error & self.delta["z"] < self.error:
+            rospy.loginfo(self.delta)
+            if self.delta["x"] < self.error and self.delta["y"] < self.error and self.delta["z"] < self.error:
                 counter += 1
                 rospy.loginfo("error")
         rate.sleep(20)
