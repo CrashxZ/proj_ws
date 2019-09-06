@@ -11,7 +11,9 @@ import time
 
 class GoHome(object):
 
+
     def __init__(self):
+        self.error = 0.001
         self._currentPoint = PointStamped()
         self._coordinate = ""
         self.pathData = ""
@@ -32,6 +34,7 @@ class GoHome(object):
             for point in self.pathData:
                 rospy.loginfo(point)
                 self.pathArray.append(point)
+        rospy.loginfo(self.pathArray)
 
 
 
@@ -39,9 +42,12 @@ class GoHome(object):
         rate = rospy.Rate(20)
         while not rospy.is_shutdown():
             self.delta= {
-                "x" : (self._coordinate["x"] - self.pathArray["x"])
-
+                "x" : (self._coordinate["x"] - self.pathArray["x"]),
+                "y": (self._coordinate["y"] - self.pathArray["y"]),
+                "z": (self._coordinate["z"] - self.pathArray["z"])
             }
+            #if self.delta["x"] < self.error && self.delta["y"] < self.error && self.delta["z"] < self.error:
+
 
 
         
