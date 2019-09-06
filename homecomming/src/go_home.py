@@ -13,6 +13,7 @@ class GoHome(object):
 
     def __init__(self):
         self.error = 0.001
+        self.pval = 0.01
         self._currentPoint = PointStamped()
         self._coordinate = ""
         self.pathData = ""
@@ -35,7 +36,6 @@ class GoHome(object):
             rospy.loginfo("part1")
             for point in self.pathData:
                 point = json.loads(point)
-                rospy.loginfo(type(point))
                 self.pathArray.append(point)
         #rospy.loginfo(self.pathArray)
         rospy.loginfo("Finished reading file")
@@ -49,10 +49,10 @@ class GoHome(object):
                 "y": (self._coordinate["y"] - self.pathArray[counter]["y"]),
                 "z": (self._coordinate["z"] - self.pathArray[counter]["z"])
             }
-            #rospy.loginfo(self.delta)
+            rospy.loginfo(self.delta)
             if self.delta["x"] < self.error and self.delta["y"] < self.error and self.delta["z"] < self.error:
                 counter += 1
-                rospy.loginfo("error")
+                rospy.loginfo("Moving On")
         rate.sleep(20)
 
 
