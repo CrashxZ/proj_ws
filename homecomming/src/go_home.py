@@ -11,14 +11,13 @@ import time
 
 class GoHome(object):
 
-
     def __init__(self):
         self.error = 0.001
         self._currentPoint = PointStamped()
         self._coordinate = ""
         self.pathData = ""
         self.pathArray = []
-        self.delta =""
+        self.delta = ""
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
 
     def sub_callback(self, msg):
@@ -30,27 +29,22 @@ class GoHome(object):
 
     def loadJSON(self):
         with open("/src/local_path/data/coordinates.json", "r") as file:
-           self.pathData = json.load(file)
+            self.pathData = json.load(file)
             for point in self.pathData:
                 rospy.loginfo(point)
                 self.pathArray.append(point)
         rospy.loginfo(self.pathArray)
 
-
-
     def deltaQ(self):
         rate = rospy.Rate(20)
         while not rospy.is_shutdown():
-            self.delta= {
-                "x" : (self._coordinate["x"] - self.pathArray["x"]),
+            self.delta = {
+                "x": (self._coordinate["x"] - self.pathArray["x"]),
                 "y": (self._coordinate["y"] - self.pathArray["y"]),
                 "z": (self._coordinate["z"] - self.pathArray["z"])
             }
-            #if self.delta["x"] < self.error && self.delta["y"] < self.error && self.delta["z"] < self.error:
+            # if self.delta["x"] < self.error && self.delta["y"] < self.error && self.delta["z"] < self.error:
 
-
-
-        
 
 if __name__ == "__main__":
     rospy.init_node('spot_recorder', log_level=rospy.INFO)
