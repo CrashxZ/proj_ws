@@ -2,7 +2,6 @@
 import rospy
 import numpy as np
 import json
-import matplotlib.pyplot as plt
 import importlib
 from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped, Point, PointStamped
@@ -20,6 +19,7 @@ class GoHome(object):
         self.pathArray = []
         self.delta = ""
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
+        self.setpoint = rospy.Publisher('/dji_sdk/flight_control_setpoint_generic', std_msgs.msg.String, queue_size=10)
         self.loadJSON()
         self.deltaQ()
 
@@ -37,12 +37,14 @@ class GoHome(object):
             for point in self.pathData:
                 point = json.loads(point)
                 self.pathArray.append(point)
+                rospy.loginfo(point)
         #rospy.loginfo(self.pathArray)
         rospy.loginfo("Finished reading file")
 
     def deltaQ(self):
         rate = rospy.Rate(20)
         counter = 0
+        rospy.loginfo(self._coordinate)
         while not rospy.is_shutdown():
             self.delta = {
                 "x": (self._coordinate["x"] - self.pathArray[counter]["x"]),
@@ -54,7 +56,6 @@ class GoHome(object):
                 counter += 1
                 rospy.loginfo("Moving On")
         rate.sleep(20)
-
 
 
 if __name__ == "__main__":
