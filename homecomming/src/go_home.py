@@ -5,6 +5,7 @@ import json
 import importlib
 from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped, Point, PointStamped
+from sensor_msgs.msg import Joy
 import time
 
 
@@ -12,14 +13,14 @@ class GoHome(object):
 
     def __init__(self):
         self.error = 0.001
-        self.pval = 0.1
+        self.pval = 0.01
         self._currentPoint = PointStamped()
         self._coordinate = ""
         self.pathData = ""
         self.pathArray = []
         self.delta = ""
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
-        self.setpoint = rospy.Publisher('/dji_sdk/flight_control_setpoint_generic', std_msgs.msg.String, queue_size=10)
+        self.setpoint = rospy.Publisher('/dji_sdk/flight_control_setpoint_generic', Joy , queue_size=10)
         self.loadJSON()
         self.deltaQ()
 
@@ -29,6 +30,7 @@ class GoHome(object):
             "y": msg.point.y,
             "z": msg.point.z
         }
+        #rospy.loginfo(self._coordinate)
 
     def loadJSON(self):
         with open("coordinates.json", "r") as file:
@@ -42,21 +44,28 @@ class GoHome(object):
         rospy.loginfo("Finished reading file")
 
     def deltaQ(self):
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(100)
         counter = 0
-        rospy.loginfo(self._coordinate)
         while not rospy.is_shutdown():
-            self.delta = {
-                "x": ((self._coordinate["x"] - self.pathArray[counter]["x"])*pval),
-                "y": ((self._coordinate["y"] - self.pathArray[counter]["y"])*pval),
-                "z": ((self._coordinate["z"] - self.pathArray[counter]["z"])*pval)
-            }
-            rospy.loginfo(self.delta)
-            if self.delta["x"] < self.error and self.delta["y"] < self.error and self.delta["z"] < self.error:
-                counter += 1
-                self.setpoint.publish(std_msgs.msg.String(self.delta))
-                rospy.loginfo("Moving On")
-        rate.sleep(20)
+            while not self._coordinate == "":
+                self.delta = {
+                    "x": ((self.pathArray[counter]["x"]  - self._coordinate["x"])* self.pval),
+                    "y": ((self.pathArray[counter]["y"]  - self._coordinate["y"])* self.pval),
+                    "z": ((self.pathArray[counter]["z"]  - self._coordinate["z"])* 0.1)
+                }
+                #rospy.loginfo(self.delta)
+                temp = Joy()
+		#temp.header.stamp = rospy.Time.now()
+                temp.axes =[self.delta["x"],self.delta["y"],self.delta["z"]]
+                self.setpoint.publish(temp)
+                rospy.loginfo(counter)
+
+                if self.delta["x"] < self.error and self.delta["y"] < self.error and self.delta["z"] < self.error:
+                    counter += 1
+#                    self.setpoint.publish(temp)
+                    rospy.loginfo("Moving On")
+
+        rate.sleep(100)
 
 
 if __name__ == "__main__":
