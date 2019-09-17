@@ -20,7 +20,7 @@ class GoHome(object):
         self.pathArray = []
         self.delta = ""
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
-        self.setpoint = rospy.Publisher('/dji_sdk/flight_control_setpoint_generic', Joy, queue_size=0)
+        self.setpoint = rospy.Publisher('/dji_sdk/flight_control_setpoint_ENUvelocity_yawrate', Joy, queue_size=0)
         self.loadJSON()
         self.deltaQ()
 
