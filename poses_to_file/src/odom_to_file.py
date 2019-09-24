@@ -24,7 +24,7 @@ class SavePoses(object):
 			     "z": self._pose.position.z}
 	
     	
-
+    #To write Odom data from RtabMap 
     def write_to_file(self):
         
         rospy.loginfo("Odom data from RtabMap.")
