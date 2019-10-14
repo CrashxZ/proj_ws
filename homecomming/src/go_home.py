@@ -51,7 +51,7 @@ class GoHome(object):
 
     #Function to Publish data to the publisher
     def deltaQ(self):
-        rate = rospy.Rate(100)
+        rate = rospy.Rate(1)
         counter = 0
         while not rospy.is_shutdown():
             while not self._coordinate == "":
@@ -77,10 +77,10 @@ class GoHome(object):
                         rospy.loginfo("Moving On")
 
 
-        rate.sleep(100)
+            rate.sleep()
 
 
 if __name__ == "__main__":
-    rospy.init_node('spot_recorder', log_level=rospy.INFO)
+    rospy.init_node('go_home', log_level=rospy.INFO)
     go_home_object = GoHome()
     # rospy.spin()
