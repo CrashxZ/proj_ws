@@ -29,9 +29,9 @@ class zedData(object):
     def path_callback(self, msg):
 
         _temp = msg.poses[-1]
-        self._currentPath = {"x": self._temp.pose.position.x,
-                             "y": self._temp.pose.position.y,
-                             "z": self._temp.pose.position.z}
+        self._currentPath = {"x": _temp.pose.position.x,
+                             "y": _temp.pose.position.y,
+                             "z": _temp.pose.position.z}
 
     def pathodom_callback(self, msg):
 
