@@ -25,7 +25,7 @@ class SavePath(object):
         
     #To save data to JSON File
     def saveJSON(self):
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(5)
         rospy.loginfo("Start to write all points.")
         with open("coordinates.json", "w") as file:
             while not rospy.is_shutdown():
