@@ -10,6 +10,7 @@ sudo usermod -a -G dialout nvidia
 
 gnome-terminal -- bash -c "sleep 10;cd $HOME/dji_sdk;source devel/setup.bash;rosservice call /dji_sdk/activation {};rosservice call /dji_sdk/set_local_pos_ref {};exec bash"
 
+gnome-terminal -- bash -c "sleep 10;cd $HOME/zed_ws;source devel/setup.bash;roslaunch zed_rtabmap_example zed_rtabmap.launch;;exec bash"
 
 gnome-terminal -- bash -c "sleep 11;cd $HOME/proj_ws;source devel/setup.bash;rosrun local_path local_path_to_file.py;exec bash"
 
