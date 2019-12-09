@@ -8,10 +8,10 @@ ax = plt.axes(projection="3d")
 with open('coordinates.json') as file:
     for line in file:
         _pathData = json.loads(line)
-        x = [_pathData['x']]
-        y = [_pathData['y']]
-        z = [_pathData['z']]
-        ax.scatter(x, y, z, c='b', marker='.', linewidths=0.01)
+        _x = [_pathData['x']]
+        _y = [_pathData['y']]
+        _z = [_pathData['z']]
+        ax.scatter(_x, _y, _z, c='b', marker='.', linewidths=0.01)
 
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
