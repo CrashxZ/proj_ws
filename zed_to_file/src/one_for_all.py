@@ -43,7 +43,7 @@ class zedData(object):
     # To write Odom data from RtabMap
     def write_to_file(self):
 
-        rospy.loginfo("Writing Odometry data from Zed SDK.")
+        rospy.loginfo("Writing all data from Zed SDK.")
 
         rate = rospy.Rate(5)
         with open("ZED_Odom.json", "w") as odom, open("Zed_Path.json", "w") as path, open("Zed_Path_Odom.json", "w") as pathodom:
@@ -60,7 +60,7 @@ class zedData(object):
                     pathodom.write("\n")
                 rate.sleep()
 
-        rospy.loginfo("Written all Odometry data to ZED_Odom.json file")
+        rospy.loginfo("Written all data to ZED_Odom.json file")
 
 
 if __name__ == "__main__":

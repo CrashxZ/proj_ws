@@ -12,7 +12,7 @@ import time
 import os
 
 
-class reachTarget(object):
+class twoR(object):
 
     def __init__(self):
 	self.target = ""
@@ -55,7 +55,7 @@ class reachTarget(object):
 
     #Function to Publish data to the publisher
     def goToTarget(self):
-	rate = rospy.Rate(1)
+	rate = rospy.Rate(0.5)
 	kill_code = 0
 	while not rospy.is_shutdown():
 		if(self.target !=""):
@@ -69,7 +69,7 @@ class reachTarget(object):
 				#right movement
 				movement_offset = Joy()
 				while(self.target != "" and self.target["x"] + (self.target["w"]/2) > self.aligntarget_x):
-					movement_offset.axes = [0.2, 0, 0] 
+					movement_offset.axes = [0.5, 0, 0] 
 					self.setpoint.publish(movement_offset)
 					rospy.loginfo(movement_offset.axes)
 					rate.sleep()
@@ -77,7 +77,7 @@ class reachTarget(object):
 				#left movement
 				movement_offset = Joy()
 				while(self.target != "" and self.target["x"] + (self.target["w"]/2) < self.aligntarget_x):
-					movement_offset.axes = [-0.2, 0, 0] 
+					movement_offset.axes = [-0.5, 0, 0] 
 					self.setpoint.publish(movement_offset)
 					rospy.loginfo(movement_offset.axes)
 					rate.sleep()
@@ -85,14 +85,14 @@ class reachTarget(object):
 				#front movement
 				movement_offset = Joy()
 				while(self.target != "" and self.target["y"] + (self.target["h"]/2) < self.aligntarget_y):
-					movement_offset.axes = [0, 0.2, 0] 
+					movement_offset.axes = [0, 0.5, 0] 
 					self.setpoint.publish(movement_offset)
 					rospy.loginfo(movement_offset.axes)
 					rate.sleep()
 				#back movement
 				movement_offset = Joy()
 				while(self.target != "" and self.target["y"] + (self.target["h"]/2) > self.aligntarget_y):
-					movement_offset.axes = [0, -0.2, 0] 
+					movement_offset.axes = [0, -0.5, 0] 
 					self.setpoint.publish(movement_offset)
 					rospy.loginfo(movement_offset.axes)
 					rate.sleep()
@@ -103,6 +103,6 @@ class reachTarget(object):
 
 
 if __name__ == "__main__":
-    rospy.init_node('reach_target', log_level=rospy.INFO)
-    go_home_object = reachTarget()
+    rospy.init_node('two_r', log_level=rospy.INFO)
+    go_home_object = twoR()
     rospy.spin()

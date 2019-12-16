@@ -34,7 +34,7 @@ class SaveRtabMap(object):
     # To write all data from RtabMap
     def write_to_file(self):
 
-        rospy.loginfo("Odom data from RtabMap.")
+        rospy.loginfo("All data from RtabMap.")
         rate = rospy.Rate(5)
         with open("RtabMap_Odom.json", "w") as odom, open("rtabMap_path.json", "w") as path:
             while not rospy.is_shutdown():

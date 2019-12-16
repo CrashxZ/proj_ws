@@ -13,8 +13,8 @@ class GoHome(object):
 
     def __init__(self):
         #Values for P Control System
-        self.error = 0.01
-        self.pval = 1
+        self.error = 0.2
+        self.pval = 0.5
         #Initilization of Variables
         self._currentPoint = PointStamped()
         self._coordinate = ""
@@ -25,6 +25,7 @@ class GoHome(object):
         self._point_sub = rospy.Subscriber('/dji_sdk/local_position', PointStamped, self.sub_callback)
         #Publisher to send delta values to the drone for flying
         self.setpoint = rospy.Publisher('/dji_sdk/flight_control_setpoint_ENUvelocity_yawrate', Joy, queue_size=0)
+        self.rc = rospy.Subscriber('/dji_sdk/rc', Joy, self.manual_override)
         self.loadJSON()
         self.deltaQ()
 
@@ -36,6 +37,14 @@ class GoHome(object):
             "z": msg.point.z
         }
         # rospy.loginfo(self._coordinate)
+        
+    # Subscriber callback to listen to rc channels
+    def manual_override(self, msg):
+	#rospy.loginfo(msg.axes[4])
+	if msg.axes[4] != 1:
+                self._coordinate = ""
+                rospy.logfatal("Manual Override")
+		rospy.signal_shutdown("Manual Override")
         
     #Function to read the JSON information from file (Previously saved by local_path packege)
     def loadJSON(self):
