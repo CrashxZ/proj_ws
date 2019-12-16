@@ -17,7 +17,7 @@ class gpsPublisher(object):
     def __init__(self):
         #Publisher to send delta values to the drone for flying
         self.setpoint = rospy.Publisher('/gpsTarget', String, queue_size=0)
-        self.gps = serial.Serial("/dev/ttyTHS0", baudrate=56700, timeout=1)
+        self.gps = serial.Serial("/dev/ttyTHS0", baudrate=57600, timeout=1)
 
 
         
