@@ -7,6 +7,7 @@ import json
 import importlib
 from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped, Point, PointStamped
+from std_msgs.msg import String
 from sensor_msgs.msg import Joy
 import time
 
@@ -15,7 +16,7 @@ class gpsPublisher(object):
 
     def __init__(self):
         #Publisher to send delta values to the drone for flying
-        self.setpoint = rospy.Publisher('/gpsTarget', Joy, queue_size=0)
+        self.setpoint = rospy.Publisher('/gpsTarget', String, queue_size=0)
         self.gps = serial.Serial("/dev/ttyTHS0", baudrate=56700, timeout=1)
 
 
@@ -33,6 +34,7 @@ class gpsPublisher(object):
         while gps.is_open:
                 position = gps.readline()
                 rospy.loginfo(position)
+                self.gps.publish(position)
 
    
 
