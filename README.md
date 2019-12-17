@@ -10,6 +10,7 @@ Steps to Use:
 2. cd <workspace_name>/src 
 3. git clone <repository_src>
 
+Install DJI Onboard-SDK and SDK and use "sudo usermod -a -G dialout $USER" and check the correct baudrate and the TX/RX connections.
 
 Extras:
 Bash Scripts and UART Scripts.
