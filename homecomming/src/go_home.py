@@ -7,6 +7,7 @@ from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped, Point, PointStamped
 from sensor_msgs.msg import Joy
 import time
+import os
 
 
 class GoHome(object):
@@ -62,6 +63,7 @@ class GoHome(object):
     def deltaQ(self):
         rate = rospy.Rate(1)
         counter = 0
+        landing_flag = 0
         while not rospy.is_shutdown():
             while not self._coordinate == "":
                 #calculating delta for each point implimenting the P Control System
@@ -84,6 +86,16 @@ class GoHome(object):
                         counter += 1
                         # self.setpoint.publish(temp)
                         rospy.loginfo("Moving On")
+                        if counter >= len(self.pathArray):
+                            #altitude adjustment to place the captured target on the ground
+                            if landing_flag == 1:
+                                os.system("sleep 5;./land.sh")
+                                break
+                            if landing_flag == 0:
+                                self.pathArray.append('{"y": 0, "x": 0, "z": 5}')
+                                self.pathArray.append('{"y": 1, "x": 0, "z": 5}')
+                                landing_flag == 1
+
 
 
             rate.sleep()

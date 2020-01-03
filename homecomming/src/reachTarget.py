@@ -63,6 +63,7 @@ class reachTarget(object):
                                 #kill trajectory control
                                 if(kill_code == 0):
                                     os.system("rosnode kill go_home")
+									os.system("rosnode kill path_to_file")
                                     kill_code = 1
                                     
 				#relative distance calculation
@@ -98,6 +99,12 @@ class reachTarget(object):
 					rate.sleep()
 				if self.target != "" and (self.target["y"] + (self.target["h"]/2)> (self.aligntarget_y-0.1) and (self.target["y"] + (self.target["h"]/2)< self.aligntarget_y+0.1) and (self.target["x"] + (self.target["w"]/2)> self.aligntarget_x-0.1 ) and (self.target["x"] + (self.target["w"]/2)< self.aligntarget_x+0.1)):
 					rospy.loginfo("Fire!")
+					#GPIO : send PVM signal for relay to fire and close pwm
+					os.system("rosservice call /dji_sdk/mfio_config \"mode: 0 channel: 0 init_on_time_us: 2500 pwm_freq: 50\"")
+					rospy.loginfo("Reseting PWM!")
+					os.system("sleep 10; rosservice call /dji_sdk/mfio_config \"mode: 0 channel: 0 init_on_time_us: 500 pwm_freq: 50\"")
+					# calling gohome
+					os.system("sleep 50;./gohome.sh")
 					break
 
 
