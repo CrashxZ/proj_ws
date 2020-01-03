@@ -19,7 +19,7 @@ gnome-terminal -- bash -c "cd $HOME/proj_ws;./target_GPS.sh;exec bash"
 
 cd $HOME/dji_sdk
 source devel/setup.bash
-$speed=rosservice call "/dji_sdk/mission_waypoint_getSpeed {}"
+speed=rosservice call "/dji_sdk/mission_waypoint_getSpeed {}"
 #check speed of the drone (idling speed), waypoint reached! set speed while calling superbashscript(./exmachina.sh)
 if $speed<=0.1
 then
